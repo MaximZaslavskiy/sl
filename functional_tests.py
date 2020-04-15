@@ -8,7 +8,9 @@ class NewVisitorTest(unittest.TestCase):
     
     def setUp(self):
         # установка 
-        self.browser = webdriver.Firefox()
+        #self.browser = webdriver.Chrome()
+        #self.browser = webdriver.Firefox(executable_path='D:/Python projects/')
+        self.browser = webdriver.Firefox(executable_path='D:/Python projects/geckodriver.exe', firefox_binary='C:/Users/Dad/AppData/Local/Mozilla Firefox/firefox.exe')        
     
     def tearDown(self):
         # демонтаж
@@ -27,7 +29,7 @@ class NewVisitorTest(unittest.TestCase):
         inputbox = self.browser.find_element_by_id('id_new_item')
         self.assertEqual(
             inputbox.get_attribute('placeholder'),
-            'Введи элемент списка To-Do'
+            'Enter a to-do item'
         )
         
         inputbox.send_keys('Купить павлиньи перья')
@@ -35,9 +37,10 @@ class NewVisitorTest(unittest.TestCase):
         time.sleep(1)
         
         table = self.browser.find_element_by_id('id_list_table')
-        rows = self.browser.find_elements_by_tag_name('tr').text
+        rows = self.browser.find_elements_by_tag_name('tr')#.text
         self.assertTrue(
-            any(row.test == '1: Купить павлиньи перья' for row in rows)
+            any(row.test == '1: Купить павлиньи перья' for row in rows), 
+            "New to-do item did not appear in table"
         )
         
         self.fail('Закончить тест!')
